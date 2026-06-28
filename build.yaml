@@ -1,8 +1,8 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: arare_R rgbled_adapter
+    shield: arare_R
   - board: nice_nano_v2
-    shield: arare_L rgbled_adapter
+    shield: arare_L
   - board: nice_nano_v2
     shield: settings_reset
