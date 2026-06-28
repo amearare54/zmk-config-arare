@@ -1,5 +1,4 @@
 build:
-  cmake-ext: true
   settings:
     board_root: .
     shield_root: .
