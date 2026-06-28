@@ -20,13 +20,19 @@
         ;
 };
 
-/* PMW3610 Trackball - SPI (3-wire, SDIO shared for MOSI/MISO) */
+/ {
+    trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball>;
+    };
+};
+
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK,  0, 24)>,    /* TB_SCLK  = P0.24 */
-                    <NRF_PSEL(SPIM_MOSI, 0, 20)>,    /* TB_SDIO  = P0.20 */
-                    <NRF_PSEL(SPIM_MISO, 0, 20)>;    /* TB_SDIO  = P0.20 (half-duplex) */
+            psels = <NRF_PSEL(SPIM_SCK,  0, 24)>,    /* TB_SCLK = P0.24 */
+                    <NRF_PSEL(SPIM_MOSI, 0, 20)>,    /* TB_SDIO = P0.20 */
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;    /* TB_SDIO = P0.20 (half-duplex) */
         };
     };
     spi0_sleep: spi0_sleep {
@@ -48,6 +54,7 @@
     cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;    /* TB_NCS = P0.17 */
 
     trackball: trackball@0 {
+        status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
