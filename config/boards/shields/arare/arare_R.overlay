@@ -1,0 +1,58 @@
+#include "arare.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    row-gpios
+        = <&gpio0 2 GPIO_ACTIVE_HIGH>    /* RROW0 = P0.02 (NFC pin) */
+        , <&gpio0 3 GPIO_ACTIVE_HIGH>    /* RROW1 = P0.03 (NFC pin) */
+        , <&gpio0 4 GPIO_ACTIVE_HIGH>    /* RROW2 = P0.04 */
+        , <&gpio0 5 GPIO_ACTIVE_HIGH>    /* RROW3 = P0.05 */
+        ;
+    col-gpios
+        = <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* RCOL0 = P0.28 */
+        , <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* RCOL1 = P0.29 */
+        , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* RCOL2 = P0.30 */
+        , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* RCOL3 = P0.31 */
+        , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* RCOL4 = P1.00 */
+        ;
+};
+
+/* PMW3610 Trackball - SPI (3-wire, SDIO shared for MOSI/MISO) */
+&pinctrl {
+    spi0_default: spi0_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK,  0, 24)>,    /* TB_SCLK  = P0.24 */
+                    <NRF_PSEL(SPIM_MOSI, 0, 20)>,    /* TB_SDIO  = P0.20 */
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;    /* TB_SDIO  = P0.20 (half-duplex) */
+        };
+    };
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK,  0, 24)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 20)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;
+            low-power-enable;
+        };
+    };
+};
+
+&spi0 {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;    /* TB_NCS = P0.17 */
+
+    trackball: trackball@0 {
+        compatible = "pixart,pmw3610";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio0 16 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;    /* TB_MOTION = P0.16 */
+        automouse-layer = <5>;
+        scroll-layers = <6>;
+    };
+};

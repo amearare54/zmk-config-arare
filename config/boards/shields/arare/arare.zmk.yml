@@ -1,0 +1,10 @@
+file_format: "1"
+id: arare
+name: arare
+type: shield
+url: https://github.com/yu-muto/zmk-config-arare
+requires:
+  - nice_nano_v2
+features:
+  - keys
+  - encoder

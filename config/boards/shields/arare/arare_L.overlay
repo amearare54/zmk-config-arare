@@ -1,0 +1,22 @@
+#include "arare.dtsi"
+
+&kscan0 {
+    row-gpios
+        = <&gpio0 2 GPIO_ACTIVE_HIGH>    /* ROW0 = P0.02 (NFC pin, needs NFCT_PINS_AS_GPIOS) */
+        , <&gpio0 3 GPIO_ACTIVE_HIGH>    /* ROW1 = P0.03 (NFC pin) */
+        , <&gpio0 4 GPIO_ACTIVE_HIGH>    /* ROW2 = P0.04 */
+        , <&gpio0 5 GPIO_ACTIVE_HIGH>    /* ROW3 = P0.05 */
+        ;
+    col-gpios
+        = <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL0 = P0.28 */
+        , <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL1 = P0.29 */
+        , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL2 = P0.30 */
+        , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL3 = P0.31 */
+        , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL4 = P1.00 */
+        , <&gpio1 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>    /* COL5 = P1.02 */
+        ;
+};
+
+&left_encoder {
+    status = "okay";
+};
